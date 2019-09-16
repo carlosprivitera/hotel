@@ -1,6 +1,5 @@
 package vista;
 
-import app.*;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
@@ -16,6 +15,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import sql.ConexionDB;
+
 public class ConectarMySQL extends JDialog {
     private JLabel jLabel1 = new JLabel();
     private JTextField jTextField1 = new JTextField();
@@ -27,6 +28,8 @@ public class ConectarMySQL extends JDialog {
     private JScrollPane jScrollPane1 = new JScrollPane();
     private JPasswordField jPasswordField1 = new JPasswordField();
     private JButton jButton2 = new JButton();
+    private JLabel jLabel4 = new JLabel();
+    private JTextField jTextField3 = new JTextField();
 
     public ConectarMySQL() {
         super();
@@ -44,7 +47,7 @@ public class ConectarMySQL extends JDialog {
         jLabel1.setText("IP del servidor:");
         jLabel1.setBounds(new Rectangle(0, 10, 100, 25));
         jLabel1.setHorizontalAlignment(SwingConstants.RIGHT);
-        jTextField1.setBounds(new Rectangle(105, 10, 310, 25));
+        jTextField1.setBounds(new Rectangle(105, 10, 140, 25));
         jTextField1.setText("127.0.0.1");
         jLabel2.setText("Usuario:");
         jLabel2.setBounds(new Rectangle(0, 40, 100, 25));
@@ -73,7 +76,14 @@ public class ConectarMySQL extends JDialog {
                     jButton2_actionPerformed(e);
                 }
             });
+        jLabel4.setText("Puerto:");
+        jLabel4.setBounds(new Rectangle(255, 10, 65, 20));
+        jLabel4.setHorizontalAlignment(SwingConstants.RIGHT);
+        jTextField3.setBounds(new Rectangle(325, 10, 90, 25));
+        jTextField3.setText("3306");
         jScrollPane1.getViewport().add(jTextArea1, null);
+        this.getContentPane().add(jTextField3, null);
+        this.getContentPane().add(jLabel4, null);
         this.getContentPane().add(jButton2, null);
         this.getContentPane().add(jPasswordField1, null);
         this.getContentPane().add(jScrollPane1, null);
@@ -86,12 +96,9 @@ public class ConectarMySQL extends JDialog {
     }
 
     private void jButton1_actionPerformed(ActionEvent e) {
-        //miConexion mc;
-        //mc = new miConexion();
-        //this.jTextArea1.setText(mc.miConexion());
         char[] passTemp1 = jPasswordField1.getPassword();
         String passTemp2 = String.copyValueOf(passTemp1);
-        ConexionDB.hacerConexion(jTextField1.getText(), jTextField2.getText(), passTemp2);
+        ConexionDB.hacerConexion(jTextField1.getText(), jTextField3.getText(), jTextField2.getText(), passTemp2);
         jTextArea1.setText(ConexionDB.ultimoError());
     }
 

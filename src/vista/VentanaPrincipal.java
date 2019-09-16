@@ -1,23 +1,40 @@
 package vista;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Rectangle;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.awt.event.KeyEvent;
+
+import java.sql.SQLException;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 
+import sql.ConexionDB;
+
 public class VentanaPrincipal extends JFrame {
+    private ImageIcon icoSalir = new ImageIcon(getClass().getResource("/recursos/salir32.png"));
+    private Image icoImgSalir = icoSalir.getImage();
+    private ImageIcon icoHotel = new ImageIcon(getClass().getResource("/recursos/gestionHotel.png"));
+    private Image icoImgHotel = icoHotel.getImage();
+    
     private JToolBar jToolBar1 = new JToolBar();
     private JButton jButton1 = new JButton();
     private JMenuBar jMenuBar1 = new JMenuBar();
@@ -28,16 +45,19 @@ public class VentanaPrincipal extends JFrame {
     private JMenu jMenu5 = new JMenu();
     private JMenu jMenu6 = new JMenu();
     private JMenuItem jMenuItem1 = new JMenuItem();
-    private JMenuItem jMenuItem2 = new JMenuItem();
-    private JMenuItem jMenuItem3 = new JMenuItem();
     private JMenuItem jMenuItem4 = new JMenuItem();
     private JLabel jLabel1 = new JLabel();
     private JLabel jLabel2 = new JLabel();
     private JLabel jLabel3 = new JLabel();
+    private JMenuItem jMenuItem5 = new JMenuItem();
+    private JMenuItem jMenuItem8 = new JMenuItem();
+    private JMenuItem jMenuItem9 = new JMenuItem();
+    private JMenuItem jMenuItem12 = new JMenuItem();
+    private JMenuItem jMenuItem13 = new JMenuItem();
 
     public VentanaPrincipal() {
         try {
-            jbInit();
+            jbInit();            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,8 +68,12 @@ public class VentanaPrincipal extends JFrame {
         this.setSize(new Dimension(578, 364));
         this.setJMenuBar(jMenuBar1);
         this.setResizable(false);
-        jToolBar1.setBounds(new Rectangle(5, 5, 565, 35));
+        this.setIconImage(icoImgHotel);
+        jToolBar1.setBounds(new Rectangle(10, 5, 560, 40));
+        jToolBar1.setLayout(null);
+        jToolBar1.setFloatable(false);
         jButton1.setText("Conectar a MySQL");
+        jButton1.setBounds(new Rectangle(10, 5, 160, 30));
         jButton1.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     jButton1_actionPerformed(e);
@@ -62,27 +86,72 @@ public class VentanaPrincipal extends JFrame {
         jMenu5.setText("Reservas");
         jMenu6.setText("Pagos");
         jMenuItem1.setText("Alta");
-        jMenuItem2.setText("Baja");
-        jMenuItem3.setText("Editar");
+        jMenuItem1.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    jMenuItem1_actionPerformed(e);
+                }
+            });
         jMenuItem4.setText("Buscar");
+        jMenuItem4.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    jMenuItem4_actionPerformed(e);
+                }
+            });
         jLabel1.setText("jLabel1");
+        jLabel1.setBounds(new Rectangle(180, 0, 210, 35));
         jLabel2.setText("jLabel2");
+        jLabel2.setBounds(new Rectangle(435, 0, 115, 35));
         jLabel3.setText("Sistema de gestión de hoteles");
         jLabel3.setBounds(new Rectangle(5, 65, 560, 110));
         jLabel3.setHorizontalAlignment(SwingConstants.CENTER);
         jLabel3.setFont(new Font("Tahoma", 1, 18));
-        jToolBar1.add(jButton1, null);
-        jToolBar1.add(jLabel1, null);
-        jToolBar1.add(jLabel2, null);
+        jMenuItem5.setText("Alta");
+        jMenuItem5.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    jMenuItem5_actionPerformed(e);
+                }
+            });
+        jMenuItem8.setText("Buscar");
+        jMenuItem8.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    jMenuItem8_actionPerformed(e);
+                }
+            });
+        jMenuItem9.setText("Alta");
+        jMenuItem9.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    jMenuItem9_actionPerformed(e);
+                }
+            });
+        jMenuItem12.setText("Buscar");
+        jMenuItem12.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    jMenuItem12_actionPerformed(e);
+                }
+            });
+        jMenuItem13.setText("Salir");
+        jMenuItem13.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.Event.CTRL_MASK, false));
+        jMenuItem13.setIcon(icoSalir);
+        jMenuItem13.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    jMenuItem13_actionPerformed(e);
+                }
+            });
+        jToolBar1.add(jButton1, BorderLayout.CENTER);
+        jToolBar1.add(jLabel1, BorderLayout.CENTER);
+        jToolBar1.add(jLabel2, BorderLayout.EAST);
         this.getContentPane().add(jLabel3, null);
         this.getContentPane().add(jToolBar1, null);
+        jMenu1.add(jMenuItem13);
         jMenuBar1.add(jMenu1);
         jMenu2.add(jMenuItem1);
-        jMenu2.add(jMenuItem2);
-        jMenu2.add(jMenuItem3);
         jMenu2.add(jMenuItem4);
         jMenuBar1.add(jMenu2);
+        jMenu3.add(jMenuItem5);
+        jMenu3.add(jMenuItem8);
         jMenuBar1.add(jMenu3);
+        jMenu4.add(jMenuItem9);
+        jMenu4.add(jMenuItem12);
         jMenuBar1.add(jMenu4);
         jMenuBar1.add(jMenu5);
         jMenuBar1.add(jMenu6);
@@ -95,9 +164,52 @@ public class VentanaPrincipal extends JFrame {
     }
     private ConectarMySQL conectarMySQL = new ConectarMySQL();
     private void jButton1_actionPerformed(ActionEvent e) {
-        conectarMySQL.setLocationRelativeTo(null);
-        conectarMySQL.setModal(true);
-        conectarMySQL.setDefaultCloseOperation(conectarMySQL.HIDE_ON_CLOSE);
-        conectarMySQL.setVisible(true);
+        polimorfismoMostrarDialogos(conectarMySQL);
+        try {
+            this.jLabel1.setText("Conectado a: " + ConexionDB.getCnx().getCatalog() + " ");
+        } catch (SQLException f) {
+            jLabel1.setText("No conectado: " + f.getMessage() + " ");
+        } catch (Exception f){
+            jLabel1.setText("No conectado: " + f.getMessage() + " ");
+        }
+    }
+    private PersonaAlta personaAlta = new PersonaAlta();
+    private void jMenuItem1_actionPerformed(ActionEvent e) {
+        polimorfismoMostrarDialogos(personaAlta);
+    }
+
+    private void polimorfismoMostrarDialogos(JDialog miDialogo) {
+        miDialogo.setLocationRelativeTo(null);
+        miDialogo.setModal(true);
+        miDialogo.setResizable(false);
+        miDialogo.setDefaultCloseOperation(conectarMySQL.HIDE_ON_CLOSE);
+        miDialogo.setVisible(true);
+    }
+    private TrabajadorAlta trabajadorAlta = new TrabajadorAlta();
+    private void jMenuItem5_actionPerformed(ActionEvent e) {
+        polimorfismoMostrarDialogos(trabajadorAlta);
+    }
+    private HabitacionAlta habitacionAlta = new HabitacionAlta();
+    private void jMenuItem9_actionPerformed(ActionEvent e) {
+        polimorfismoMostrarDialogos(habitacionAlta);
+    }
+    private Busquedas busquedas = new Busquedas();
+    private void jMenuItem4_actionPerformed(ActionEvent e) {
+        busquedas.setBuscarEnTabla(personaAlta.getPersonas().getNombreTabla());
+        polimorfismoMostrarDialogos(busquedas);        
+    }
+
+    private void jMenuItem8_actionPerformed(ActionEvent e) {
+        busquedas.setBuscarEnTabla(trabajadorAlta.getTrabajadores().getNombreTabla());
+        polimorfismoMostrarDialogos(busquedas);  
+    }
+
+    private void jMenuItem12_actionPerformed(ActionEvent e) {
+        busquedas.setBuscarEnTabla(habitacionAlta.getHabitacion().getNombreTabla());
+        polimorfismoMostrarDialogos(busquedas);          
+    }
+
+    private void jMenuItem13_actionPerformed(ActionEvent e) {
+        System.exit(0);
     }
 }
