@@ -94,7 +94,7 @@ public class ConectarMySQL extends JDialog {
         this.getContentPane().add(jLabel1, null);
         this.getContentPane().add(jButton1, null);
     }
-
+    private ConexionDB conexionDB = new ConexionDB();
     private void jButton1_actionPerformed(ActionEvent e) {
         char[] passTemp1 = jPasswordField1.getPassword();
         String passTemp2 = String.copyValueOf(passTemp1);

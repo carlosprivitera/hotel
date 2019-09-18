@@ -54,6 +54,8 @@ public class VentanaPrincipal extends JFrame {
     private JMenuItem jMenuItem9 = new JMenuItem();
     private JMenuItem jMenuItem12 = new JMenuItem();
     private JMenuItem jMenuItem13 = new JMenuItem();
+    private JMenuItem jMenuItem2 = new JMenuItem();
+    private JMenuItem jMenuItem3 = new JMenuItem();
 
     public VentanaPrincipal() {
         try {
@@ -137,6 +139,13 @@ public class VentanaPrincipal extends JFrame {
                     jMenuItem13_actionPerformed(e);
                 }
             });
+        jMenuItem2.setText("Hacer reserva");
+        jMenuItem2.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    jMenuItem2_actionPerformed(e);
+                }
+            });
+        jMenuItem3.setText("Buscar");
         jToolBar1.add(jButton1, BorderLayout.CENTER);
         jToolBar1.add(jLabel1, BorderLayout.CENTER);
         jToolBar1.add(jLabel2, BorderLayout.EAST);
@@ -153,6 +162,8 @@ public class VentanaPrincipal extends JFrame {
         jMenu4.add(jMenuItem9);
         jMenu4.add(jMenuItem12);
         jMenuBar1.add(jMenu4);
+        jMenu5.add(jMenuItem2);
+        jMenu5.add(jMenuItem3);
         jMenuBar1.add(jMenu5);
         jMenuBar1.add(jMenu6);
     }
@@ -195,21 +206,29 @@ public class VentanaPrincipal extends JFrame {
     }
     private Busquedas busquedas = new Busquedas();
     private void jMenuItem4_actionPerformed(ActionEvent e) {
-        busquedas.setBuscarEnTabla(personaAlta.getPersonas().getNombreTabla());
+        busquedas.setNombreTabla(personaAlta.getPersonas().getNombreTabla(),
+                                 personaAlta.getPersonas().getCampos());
         polimorfismoMostrarDialogos(busquedas);        
     }
 
     private void jMenuItem8_actionPerformed(ActionEvent e) {
-        busquedas.setBuscarEnTabla(trabajadorAlta.getTrabajadores().getNombreTabla());
+        busquedas.setNombreTabla(trabajadorAlta.getTrabajadores().getNombreTabla(),
+                                 trabajadorAlta.getTrabajadores().getCampos());
         polimorfismoMostrarDialogos(busquedas);  
     }
 
     private void jMenuItem12_actionPerformed(ActionEvent e) {
-        busquedas.setBuscarEnTabla(habitacionAlta.getHabitacion().getNombreTabla());
+        busquedas.setNombreTabla(habitacionAlta.getHabitacion().getNombreTabla(),
+                                 habitacionAlta.getHabitacion().getCampos());
         polimorfismoMostrarDialogos(busquedas);          
     }
 
     private void jMenuItem13_actionPerformed(ActionEvent e) {
         System.exit(0);
+    }
+    private HacerReservas hacerReservas = new HacerReservas();
+    private void jMenuItem2_actionPerformed(ActionEvent e) {
+        polimorfismoMostrarDialogos(hacerReservas);
+        
     }
 }
